@@ -1,3 +1,9 @@
+# dataset raw directory
+dataset/celeba
+dataset/celeba_dft
+dataset/celeba_fake
+dataset/celeba_fake_dft
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
