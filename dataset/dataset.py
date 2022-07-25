@@ -58,10 +58,13 @@ class CelebA(Dataset):
         self.data = []
         self.target = torch.tensor([1.0])
 
-        with zipfile.ZipFile(self.dataset_path) as zip_images:
-            for filepath in zip_images.namelist():
-                if filepath[-1] != '/':  # ignore directory path
-                    self.data.append(filepath)
+        # with zipfile.ZipFile(self.dataset_path) as zip_images:
+        #     for filepath in zip_images.namelist():
+        #         if filepath[-1] != '/':  # ignore directory path
+        #             self.data.append(filepath)
+        for i in range(1, 1201):
+            self.data.append(f"celeba/{i}-images.jpg")
+
 
         if train:
             self.data = self.data[0:1000]
@@ -87,10 +90,12 @@ class CelebAFake(Dataset):
         self.data = []
         self.target = torch.tensor([0.0])
 
-        with zipfile.ZipFile(self.dataset_path) as zip_images:
-            for filepath in zip_images.namelist():
-                if filepath[-1] != '/':  # ignore directory path
-                    self.data.append(filepath)
+        # with zipfile.ZipFile(self.dataset_path) as zip_images:
+        #     for filepath in zip_images.namelist():
+        #         if filepath[-1] != '/':  # ignore directory path
+        #             self.data.append(filepath)
+        for i in range(1, 1201):
+            self.data.append(f"celeba_fake/{i}-images.jpg")
 
         if train:
             self.data = self.data[0:1000]
