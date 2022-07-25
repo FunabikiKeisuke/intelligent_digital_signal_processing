@@ -4,6 +4,9 @@ dataset/celeba_dft
 dataset/celeba_fake
 dataset/celeba_fake_dft
 
+# IDE config files
+.idea/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
