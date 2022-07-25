@@ -14,7 +14,7 @@ from model.cycle_gan import Discriminator
 from model.wide_residual_network import WideResNet
 from model.wide_resnet import Wide_ResNet
 from model.resnet import ResNet18
-from dataset.dataset import CelebARealFake, CelebADFTRealFake
+from dataset.dataset import CelebARealFake, CelebADFTRealFake, CelebAWTRealFake
 
 
 def train(model, device, train_loader, optimizer, criterion, epoch):
@@ -55,7 +55,8 @@ def test(model, device, test_loader, criterion, start_time):
 def main():
     # argument parser
     parser = argparse.ArgumentParser()
-    parser.add_argument("--dataset", default="celeba", type=str, choices=["celeba", "celeba_dft"], help="学習データセット")
+    parser.add_argument("--dataset", default="celeba", type=str, choices=["celeba", "celeba_dft", "celeba_wt"],
+                        help="学習データセット")
     parser.add_argument("--history", default="result/train_history.h5", type=str, help="loss, accの保存ファイルパス")
     parser.add_argument("--batch_size", default=64, type=int, help="学習バッチサイズ")
     parser.add_argument("--epochs", default=200, type=int, help="学習エポック数")
@@ -81,11 +82,17 @@ def main():
 
     # load dataset
     if args.dataset == 'celeba':
+        print("use celeba")
         train_dataset = CelebARealFake(train=True, transform=transform)
         test_dataset = CelebARealFake(train=False, transform=transform)
     elif args.dataset == 'celeba_dft':
+        print("use dft")
         train_dataset = CelebADFTRealFake(train=True, transform=transform)
         test_dataset = CelebADFTRealFake(train=False, transform=transform)
+    elif args.dataset == 'celeba_wt':
+        print("use wt")
+        train_dataset = CelebAWTRealFake(train=True, transform=transform)
+        test_dataset = CelebAWTRealFake(train=False, transform=transform)
     else:
         raise ValueError(f"Unsupported dataset: {args.dataset}")
     train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, **device_kwargs)

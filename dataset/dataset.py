@@ -65,7 +65,6 @@ class CelebA(Dataset):
         for i in range(1, 1201):
             self.data.append(f"celeba/{i}-images.jpg")
 
-
         if train:
             self.data = self.data[0:1000]
         else:
@@ -215,3 +214,42 @@ class CelebAFakeDFT(Dataset):
                 image = self.transform(image)
 
             return image, self.target
+
+
+class CelebAWTRealFake(Dataset):
+    def __init__(self, train=True, transform=None):
+        self.real_dataset_path = "dataset/celeba_wt.zip"
+        self.fake_dataset_path = "dataset/celeba_fake_wt.zip"
+        self.transform = transform
+        self.real_data = []
+        self.fake_data = []
+        self.real_target = torch.tensor([1.0])
+        self.fake_target = torch.tensor([0.0])
+
+        for i in range(1, 1201):
+            self.real_data.append(f"celeba_wt/{i}-images.jpg")
+            self.fake_data.append(f"celeba_fake_wt/{i}-images.jpg")
+
+        if train:
+            self.data = self.real_data[0:1000] + self.fake_data[0:1000]
+        else:
+            self.data = self.real_data[1000:1200] + self.fake_data[1000:1200]
+
+    def __len__(self):
+        return len(self.data)
+
+    def __getitem__(self, idx):
+        if "fake" not in self.data[idx]:
+            with zipfile.ZipFile(self.real_dataset_path) as zip_images:
+                image = Image.open(zip_images.open(self.data[idx])).convert('RGB')
+                if self.transform:
+                    image = self.transform(image)
+
+                return image, self.real_target
+        else:
+            with zipfile.ZipFile(self.fake_dataset_path) as zip_images:
+                image = Image.open(zip_images.open(self.data[idx])).convert('RGB')
+                if self.transform:
+                    image = self.transform(image)
+
+                return image, self.fake_target

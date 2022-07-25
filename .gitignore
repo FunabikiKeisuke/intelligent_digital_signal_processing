@@ -9,6 +9,9 @@ dataset/celeba_fake_wt
 # IDE config files
 .idea/
 
+# result
+result/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
