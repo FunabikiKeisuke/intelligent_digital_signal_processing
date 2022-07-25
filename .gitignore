@@ -3,6 +3,8 @@ dataset/celeba
 dataset/celeba_dft
 dataset/celeba_fake
 dataset/celeba_fake_dft
+dataset/celeba_wt
+dataset/celeba_fake_wt
 
 # IDE config files
 .idea/
